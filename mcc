@@ -1,0 +1,27 @@
+function calculateMigrationCost() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  // Define the input and output cells
+  const fileDataSizeCell = sheet.getRange("B1"); // File Data Size (TB)
+  const mailboxCountCell = sheet.getRange("B2"); // Number of Mailboxes
+  const totalCostCell = sheet.getRange("B3");    // Total Cost
+  
+  // Get the values from the input cells
+  const fileDataSize = fileDataSizeCell.getValue();
+  const mailboxCount = mailboxCountCell.getValue();
+  
+  // Perform the calculations
+  const fileDataCost = fileDataSize * 312; // $312 per TB
+  const mailboxCost = mailboxCount * 3.10; // $3.10 per mailbox
+  const totalCost = fileDataCost + mailboxCost;
+  
+  // Set the total cost in the output cell
+  totalCostCell.setValue(totalCost.toFixed(2));
+}
+
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('Migration Calculator')
+    .addItem('Calculate Cost', 'calculateMigrationCost')
+    .addToUi();
+}
